@@ -1,4 +1,4 @@
-FROM trafex/php-nginx:3.11.1
+FROM trafex/php-nginx:latest
 
 # Elevate to install stuff
 USER root
