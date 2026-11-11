@@ -1,0 +1,2 @@
+# Put your crons in here - dont forget stdout redirection
+#* * * * * id > /proc/1/fd/1 2>&1

@@ -1,4 +1,5 @@
 FROM php:8.5.12-fpm-alpine3.23
+ENV SUPERCRONIC_VERSION=0.2.51
 
 # Elevate to install stuff
 USER root
@@ -25,14 +26,21 @@ RUN docker-php-ext-install -j"$(nproc)" \
 # Install nginx
 RUN apk add nginx curl supervisor
 
+# Install supercronic (allows non-root cron)
+RUN curl -fsSLO \
+    "https://github.com/aptible/supercronic/releases/download/v${SUPERCRONIC_VERSION}/supercronic-linux-amd64" \
+    && chmod +x supercronic-linux-amd64 \
+    && mv supercronic-linux-amd64 /usr/local/bin/supercronic
+
 # Copy stuff over supervisord
 COPY src/default.conf /etc/nginx/conf.d/default.conf
 COPY src/fpm-pool.conf /usr/local/etc/php-fpm.d/www.conf
 COPY src/nginx.conf /etc/nginx/nginx.conf
 COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY src/crontab /etc/crontabs/nobody
 
 # Allow 'nobody' access
-RUN chown -R nobody:nobody /var/www/html /run /var/lib/nginx /var/log/nginx
+RUN chown -R nobody:nobody /var/www/html /run /var/lib/nginx /var/log/nginx /etc/crontabs/nobody
 
 # No more root
 USER nobody

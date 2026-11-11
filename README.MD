@@ -14,7 +14,9 @@ This dockerfile takes base PHP-FPM, adds nginx and supervisord Inside the `Docke
 - sockets
 - zip
 
-From there it adds supervisord and nginx to allow this to be an all in one container.
+From there it adds supervisord, nginx, and cron to allow this to be an all in one container.
+
+Why cron? Because some webapps like forums like to run cron scripts to manage things.
 
 There are also lines to debug the list of extensions with the supplied `list_extensions.php` script. You can run it with the following command:
 
