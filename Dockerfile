@@ -1,4 +1,4 @@
-FROM php:8.5.12-fpm-alpine3.23
+FROM php:8.5.13-fpm-alpine3.23
 ENV SUPERCRONIC_VERSION=0.2.51
 
 # Elevate to install stuff
